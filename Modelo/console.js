@@ -1,22 +1,20 @@
-import ProdutoDAO from "../Persistencia/produtoDAO.js";
+import ConsoleDAO from "../Persistencia/consoleDAO.js";
 
-export default class Produto{
+export default class Console{
     #codigo;
     #descricao;
     #precoCusto;
     #precoVenda;
-    #dataValidade;
     #qtdEstoque;
 
 
     constructor(codigo=0,descricao="", precoCusto=0, 
-                precoVenda=0,dataValidade='', qtdEstoque=0
+                precoVenda=0, qtdEstoque=0
                 ){
         this.#codigo=codigo;
         this.#descricao=descricao;
         this.#precoCusto=precoCusto;
         this.#precoVenda=precoVenda;
-        this.#dataValidade=dataValidade;
         this.#qtdEstoque=qtdEstoque;
     }
 
@@ -51,16 +49,8 @@ export default class Produto{
         this.#precoVenda = novoPreco
     }
 
-    get dataValidade(){
-        return this.#dataValidade;
-    }
-
-    set dataValidade(novaData){
-        this.#dataValidade = novaData;
-    }
-
     get qtdEstoque(){
-        return this.#dataValidade;
+        return this.#qtdEstoque;
     }
 
     set qtdEstoque(novaQtd){
@@ -74,30 +64,29 @@ export default class Produto{
             descricao:this.#descricao,
             precoCusto:this.#precoCusto,
             precoVenda:this.#precoVenda,
-            dataValidade:this.#dataValidade,
             qtdEstoque:this.#qtdEstoque,
         }
     }
 
      //camada de modelo acessa a camada de persistencia
      async gravar(){
-        const prodDAO = new ProdutoDAO();
-        await prodDAO.gravar(this);
+        const consDAO = new ConsoleDAO();
+        await consDAO.gravar(this);
      }
  
      async excluir(){
-        const prodDAO = new ProdutoDAO();
-        await prodDAO.excluir(this);
+        const consDAO = new ConsoleDAO();
+        await consDAO.excluir(this);
      }
  
      async alterar(){
-        const prodDAO = new ProdutoDAO();
-        await prodDAO.atualizar(this);
+        const consDAO = new ConsoleDAO();
+        await consDAO.atualizar(this);
      }
  
      async consultar(termo){
-        const prodDAO = new ProdutoDAO();
-        return await prodDAO.consultar(termo);
+        const consDAO = new ConsoleDAO();
+        return await consDAO.consultar(termo);
      }
 
 }
