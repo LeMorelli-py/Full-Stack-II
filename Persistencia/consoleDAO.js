@@ -1,5 +1,6 @@
 import Console from '../Modelo/console.js';
 import conectar from './conexao.js';
+import Marca from '../Modelo/marca.js';
 
 export default class ConsoleDAO {
 
@@ -35,10 +36,10 @@ export default class ConsoleDAO {
     async gravar(console) {
         if (console instanceof Console) {
             const sql = `INSERT INTO console(cons_descricao, cons_precoCusto,
-                cons_precoVenda, cons_qtdEstoque)
-                VALUES(?,?,?,?)`;
+                cons_precoVenda, cons_qtdEstoque, mar_codigo)
+                VALUES(?,?,?,?,?)`;
             const parametros = [console.descricao, console.precoCusto, console.precoVenda,
-             console.qtdEstoque];
+             console.qtdEstoque, console.marca.codigo];
 
             const conexao = await conectar();
             const retorno = await conexao.execute(sql, parametros);
@@ -49,10 +50,10 @@ export default class ConsoleDAO {
     async atualizar(console) {
         if (console instanceof Console) {
             const sql = `UPDATE Console SET cons_descricao = ?, cons_precoCusto = ?,
-            cons_precoVenda = ?, cons_qtdEstoque = ?,
+            cons_precoVenda = ?, cons_qtdEstoque = ?, mar_codigo = ?
             WHERE cons_codigo = ?`;
             const parametros = [console.descricao, console.precoCusto, console.precoVenda,
-             console.qtdEstoque, console.codigo];
+             console.qtdEstoque, console.marca.codigo, console.codigo];
 
             const conexao = await conectar();
             await conexao.execute(sql, parametros);
@@ -80,16 +81,17 @@ export default class ConsoleDAO {
         if (!isNaN(parseInt(termo))){
             //consulta pelo código do Console
             const sql =`SELECT c.cons_codigo, c.cons_descricao, c.cons_precoCusto, 
-                         c.cons_precoVenda, c.cons_dataValidade, c.cons_qtdEstoque
+                         c.cons_precoVenda, c.cons_qtdEstoque, m.mar_codigo, m.mar_descricao
                          FROM console c 
+                         INNER JOIN marca m ON c.mar_codigo = m.mar_codigo
                          WHERE c.cons_descricao like ?
-                         ORDER BY c.cons_descricao`;;
+                         ORDER BY c.cons_descricao`;
             const parametros=[termo];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
                 const console = new Console(registro.cons_codigo,registro.cons_descricao,
                                             registro.cons_precoCusto,registro.cons_precoVenda,
-                                            registro.cons_dataValidade, registro.cons_qtdEstoque
+                                            registro.cons_dataValidade, registro.cons_qtdEstoque,
                                             );
                 listaConsoles.push(console);
             }
@@ -100,14 +102,16 @@ export default class ConsoleDAO {
             const sql = `SELECT c.cons_codigo, c.cons_descricao, c.cons_precoCusto, 
                          c.cons_precoVenda, c.cons_qtdEstoque
                          FROM console c 
+                         INNER JOIN marca m ON c.mar_codigo = m.mar_codigo
                          WHERE c.cons_descricao like ?
                          ORDER BY c.cons_descricao`;
             const parametros=['%'+termo+'%'];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
+                const marca = new Marca(registro.mar_codigo, registro.mar_descricao);
                 const console = new Console(registro.cons_codigo,registro.cons_descricao,
                                             registro.cons_precoCusto,registro.cons_precoVenda,
-                                            registro.cons_qtdEstoque,
+                                            registro.cons_qtdEstoque, marca
                                             );
                 listaConsoles.push(console);
             }

@@ -47,6 +47,9 @@ export default class MarcaDAO{
 
     async excluir(marca){
         if (marca instanceof Marca){
+            // excluir uma categoria implica em excluir antes todos os seus produtos
+            // para nao violar a integridade referencial do banco de dados
+            // a restrição deve ser implementada na camada de Controle
             const sql = "DELETE FROM marca WHERE mar_codigo = ?"; 
             const parametros = [marca.codigo];
             const conexao = await conectar(); //retorna uma conexão
