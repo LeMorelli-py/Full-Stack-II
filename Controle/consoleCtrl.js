@@ -1,4 +1,5 @@
 import Console from "../Modelo/console.js";
+import Marca from "../Modelo/marca.js";
 
 export default class ConsoleCtrl {
 
@@ -10,11 +11,13 @@ export default class ConsoleCtrl {
             const precoCusto = dados.precoCusto;
             const precoVenda = dados.precoVenda;
             const qtdEstoque = dados.qtdEstoque;
+            const mar_codigo = dados.marca.codigo;
 
             if (descricao && precoCusto > 0 && precoVenda > 0 
-                && qtdEstoque >= 0) {
+                && qtdEstoque >= 0 && mar_codigo > 0) {
+                const marca = new Marca(mar_codigo);
                 const console = new Console(0, descricao, precoCusto,
-                    precoVenda, qtdEstoque
+                    precoVenda, qtdEstoque, mar_codigo, marca
                 );
                 //resolver a promise
                 console.gravar().then(() => {
@@ -55,10 +58,12 @@ export default class ConsoleCtrl {
             const precoCusto = dados.precoCusto;
             const precoVenda = dados.precoVenda;
             const qtdEstoque = dados.qtdEstoque;
+            const mar_codigo = dados.marca.codigo;
             if (codigo && descricao && precoCusto > 0 && precoVenda > 0 
-                && qtdEstoque >= 0) {
+                && qtdEstoque >= 0 && mar_codigo > 0) {
+                const marca = new Marca(mar_codigo);
                 const console = new Console(codigo, descricao, precoCusto,
-                    precoVenda,  qtdEstoque);
+                    precoVenda,  qtdEstoque, marca);
                 //resolver a promise
                 console.atualizar().then(() => {
                     resposta.status(200).json({
