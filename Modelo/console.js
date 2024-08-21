@@ -11,7 +11,7 @@ export default class Console{
 
 
     constructor(codigo=0,descricao="", precoCusto=0, 
-                precoVenda=0, qtdEstoque=0, marca=null
+                precoVenda=0, qtdEstoque=0, marca=0
                 ){
         this.#codigo=codigo;
         this.#descricao=descricao;
@@ -76,7 +76,7 @@ export default class Console{
             precoCusto:this.#precoCusto,
             precoVenda:this.#precoVenda,
             qtdEstoque:this.#qtdEstoque,
-            marca:this.#marca.toJSON()
+            marca:this.#marca
         }
     }
 
@@ -91,7 +91,7 @@ export default class Console{
         await consDAO.excluir(this);
      }
  
-     async alterar(){
+     async atualizar(){
         const consDAO = new ConsoleDAO();
         await consDAO.atualizar(this);
      }

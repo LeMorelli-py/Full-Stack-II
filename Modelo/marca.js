@@ -40,23 +40,27 @@ export default class Marca{
 
     //camada de modelo acessa a camada de persistencia
     async gravar(){
-        const marDAO = new MarcaDAO();
-        await marDAO.gravar(this);
+        const marcaDAO = new MarcaDAO();
+        await marcaDAO.gravar(this);
     }
 
     async excluir(){
-        const marDAO = new MarcaDAO();
-        await marDAO.excluir(this);
+        const marcaDAO = new MarcaDAO();
+        await marcaDAO.excluir(this);
     }
 
     async atualizar(){
-        const marDAO = new MarcaDAO();
-        await marDAO.atualizar(this);
+        const marcaDAO = new MarcaDAO();
+        await marcaDAO.atualizar(this);
 
     }
 
     async consultar(parametro){
-        const marDAO = new MarcaDAO();
-        return await marDAO.consultar(parametro);
+        const marcaDAO = new MarcaDAO();
+        return await marcaDAO.consultar(parametro);
+    }
+    async possuiProdutos(){
+        const marcaDAO = new MarcaDAO();
+        return await marcaDAO.possuiProdutos(this);
     }
 }

@@ -11,13 +11,13 @@ export default class ConsoleCtrl {
             const precoCusto = dados.precoCusto;
             const precoVenda = dados.precoVenda;
             const qtdEstoque = dados.qtdEstoque;
-            const mar_codigo = dados.marca.codigo;
+            const mar_codigo = dados.mar_codigo;
 
             if (descricao && precoCusto > 0 && precoVenda > 0 
                 && qtdEstoque >= 0 && mar_codigo > 0) {
                 const marca = new Marca(mar_codigo);
                 const console = new Console(0, descricao, precoCusto,
-                    precoVenda, qtdEstoque, mar_codigo, marca
+                    precoVenda, qtdEstoque, marca
                 );
                 //resolver a promise
                 console.gravar().then(() => {
@@ -58,7 +58,7 @@ export default class ConsoleCtrl {
             const precoCusto = dados.precoCusto;
             const precoVenda = dados.precoVenda;
             const qtdEstoque = dados.qtdEstoque;
-            const mar_codigo = dados.marca.codigo;
+            const mar_codigo = dados.mar_codigo;
             if (codigo && descricao && precoCusto > 0 && precoVenda > 0 
                 && qtdEstoque >= 0 && mar_codigo > 0) {
                 const marca = new Marca(mar_codigo);
@@ -101,7 +101,7 @@ export default class ConsoleCtrl {
             if (codigo) {
                 const console = new Console(codigo);
                 //resolver a promise
-                console.atualizar().then(() => {
+                console.excluir().then(() => {
                     resposta.status(200).json({
                         "status": true,
                         "mensagem": "console excluído com sucesso!"

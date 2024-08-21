@@ -84,26 +84,37 @@ export default class MarcaCtrl {
             const codigo = dados.codigo;
             if (codigo) {
                 const marca = new Marca(codigo);
-                //resolver a promise
-                marca.excluir().then(() => {
-                    resposta.status(200).json({
-                        "status": true,
-                        "mensagem": "Marca excluída com sucesso!"
-                    });
-                })
-                    .catch((erro) => {
-                        resposta.status(500).json({
-                            "status": false,
-                            "mensagem": "Erro ao excluir a Marca:" + erro.message
+                marca.possuiProdutos(resposta =>{
+                    if(resposta == false){
+                        marca.excluir().then(() => {
+                            resposta.status(200).json({
+                                "status": true,
+                                "mensagem": "Marca excluída com sucesso!"
+                            });
+                        })
+                        
+                        .catch((erro) => {
+                                resposta.status(500).json({
+                                    "status": false,
+                                    "mensagem": "Erro ao excluir a Marca:" + erro.message
+                                });
                         });
+                    }
+                    else {
+                        resposta.status(400).json({
+                            "status": false,
+                            "mensagem": "Essa Marca possui produtos e não pode ser excluída!"
                     });
+                        }  
+                    }                    
+                );
             }
             else {
                 resposta.status(400).json({
                     "status": false,
                     "mensagem": "Por favor, informe o código da Marca!"
                 });
-            }
+                }           
         }
         else {
             resposta.status(400).json({
@@ -111,6 +122,7 @@ export default class MarcaCtrl {
                 "mensagem": "Por favor, utilize o método DELETE para excluir uma Marca!"
             });
         }
+        
     }
 
 

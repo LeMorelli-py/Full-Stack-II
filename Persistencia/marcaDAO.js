@@ -84,4 +84,15 @@ export default class MarcaDAO{
         }
         return listamarcas;
     }
+
+    async possuiProdutos(marca){
+        if (marca instanceof Marca){
+            const sql = `SELECT count(*) as qtd FROM console c
+                         INNER JOIN marca m ON c.mar_codigo = m.mar_codigo
+                         WHERE c.mar_codigo = ?`;
+            const parametros = [marca.codigo];
+            const [registros, campos] = await global.poolConexoes.execute(sql,parametros);
+            return registros[0].qtd > 0;
+};
+    }
 }
