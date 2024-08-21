@@ -1,4 +1,5 @@
 import ConsoleDAO from "../Persistencia/consoleDAO.js";
+import Marca from "./marca.js";
 
 export default class Console{
     #codigo;
@@ -6,16 +7,18 @@ export default class Console{
     #precoCusto;
     #precoVenda;
     #qtdEstoque;
+    #marca;
 
 
     constructor(codigo=0,descricao="", precoCusto=0, 
-                precoVenda=0, qtdEstoque=0
+                precoVenda=0, qtdEstoque=0, marca=null
                 ){
         this.#codigo=codigo;
         this.#descricao=descricao;
         this.#precoCusto=precoCusto;
         this.#precoVenda=precoVenda;
         this.#qtdEstoque=qtdEstoque;
+        this.#marca=marca;
     }
 
     get codigo(){
@@ -56,6 +59,14 @@ export default class Console{
     set qtdEstoque(novaQtd){
         this.#qtdEstoque = novaQtd;
     }
+    get marca(){
+        return this.#marca;
+    }
+
+    set marca(novaMarca){
+        if (novaMarca instanceof Marca)
+            this.#marca = novaMarca;
+    }
 
 
     toJSON(){
@@ -65,6 +76,7 @@ export default class Console{
             precoCusto:this.#precoCusto,
             precoVenda:this.#precoVenda,
             qtdEstoque:this.#qtdEstoque,
+            marca:this.#marca.toJSON()
         }
     }
 

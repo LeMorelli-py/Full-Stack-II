@@ -18,7 +18,9 @@ export default class ConsoleDAO {
                 cons_precoCusto DECIMAL(10,2) NOT NULL DEFAULT 0,
                 cons_precoVenda DECIMAL(10,2) NOT NULL DEFAULT 0,
                 cons_qtdEstoque DECIMAL(10,2) NOT NULL DEFAULT 0,
-                CONSTRAINT pk_Console PRIMARY KEY(cons_codigo)
+                mar_codigo INT NOT NULL,
+                CONSTRAINT pk_Console PRIMARY KEY(cons_codigo),
+                CONSTRAINT fk_marca FOREIGN KEY(mar_codigo) REFERENCES marca(mar_codigo)
             )
         `;
             await conexao.execute(sql);
@@ -77,13 +79,11 @@ export default class ConsoleDAO {
         let listaConsoles = [];
         if (!isNaN(parseInt(termo))){
             //consulta pelo código do Console
-            const sql = `SELECT c.cons_codigo, c.cons_descricao,
-              c.cons_precoCusto, c.cons_precoVenda, 
-              c.cons_qtdEstoque
-              FROM Console c 
-              WHERE c.cons_codigo = ?
-              ORDER BY c.cons_descricao               
-            `;
+            const sql =`SELECT c.cons_codigo, c.cons_descricao, c.cons_precoCusto, 
+                         c.cons_precoVenda, c.cons_dataValidade, c.cons_qtdEstoque
+                         FROM console c 
+                         WHERE c.cons_descricao like ?
+                         ORDER BY c.cons_descricao`;;
             const parametros=[termo];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
@@ -97,11 +97,11 @@ export default class ConsoleDAO {
         else
         {
             //consulta pela descrição do Console
-            const sql = `SELECT c.cons_codigo, c.cons_descricao, c.precoCusto, 
-                         c.prod_precoVenda, c.prod_qtdEstoque
-                         FROM Console c 
-                         WHERE c.prod_descricao like ?
-                         ORDER BY c.prod_descricao`;
+            const sql = `SELECT c.cons_codigo, c.cons_descricao, c.cons_precoCusto, 
+                         c.cons_precoVenda, c.cons_qtdEstoque
+                         FROM console c 
+                         WHERE c.cons_descricao like ?
+                         ORDER BY c.cons_descricao`;
             const parametros=['%'+termo+'%'];
             const [registros, campos] = await conexao.execute(sql,parametros);
             for (const registro of registros){
@@ -114,5 +114,6 @@ export default class ConsoleDAO {
         }
 
         return listaConsoles;
+ 
     }
 }

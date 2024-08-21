@@ -15,7 +15,7 @@ export default class MarcaDAO{
                 CREATE TABLE IF NOT EXISTS marca(
                     mar_codigo INT NOT NULL AUTO_INCREMENT,
                     mar_descricao VARCHAR(100) NOT NULL,
-                    CONSTRAINT pk_marca PRIMARY KEY(cat_codigo)
+                    CONSTRAINT pk_marca PRIMARY KEY(mar_codigo)
                 );`;
             await conexao.execute(sql);
             await conexao.release();

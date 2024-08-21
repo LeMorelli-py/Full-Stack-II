@@ -18,7 +18,7 @@ export default class MarcaCtrl {
                         "mensagem": "Marca incluída com sucesso!"
                     });
                 })
-                    .catch((erro) => {
+                    .catch((erro) => {  
                         resposta.status(500).json({
                             "status": false,
                             "mensagem": "Erro ao registrar a Marca:" + erro.message
