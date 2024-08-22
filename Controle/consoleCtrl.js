@@ -88,7 +88,7 @@ export default class ConsoleCtrl {
         else {
             resposta.status(400).json({
                 "status": false,
-                "mensagem": "Por favor, utilize os métodos PUT ou PATCH para atualizar um console!"
+                "mensagem": "Por favor, utilize os métodos PUT ou PATCH para atualizar um Console!"
             });
         }
     }
