@@ -39,7 +39,7 @@ export default class ConsoleDAO {
                 cons_precoVenda, cons_qtdEstoque, mar_codigo)
                 VALUES(?,?,?,?,?)`;
             const parametros = [console.descricao, console.precoCusto, console.precoVenda,
-             console.qtdEstoque, console.mar_codigo];
+             console.qtdEstoque, console.marca.codigo];
 
             const conexao = await conectar();
             const retorno = await conexao.execute(sql, parametros);
