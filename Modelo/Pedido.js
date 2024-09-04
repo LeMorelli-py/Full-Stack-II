@@ -84,12 +84,12 @@ export default class Pedido {
 
     async atualizar() {
         const pedidoDAO = new PedidoDAO();
-        await pedidoDAO.alterar(this);
+        await pedidoDAO.atualizar(this);
     }
 
-    async apagar() {
+    async excluir() {
         const pedidoDAO = new PedidoDAO();
-        await pedidoDAO.deletar(this);
+        await pedidoDAO.excluir(this);
     }
 
     async consultar(termoBusca) {

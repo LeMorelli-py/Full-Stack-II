@@ -1,5 +1,4 @@
-import ClienteDAO from "../Persistencia/ClienteDAO.js";
-
+import ClienteDAO from "../Persistencia/clienteDAO.js";
 export default class Cliente {
     #codigo;
     #nome;
@@ -47,7 +46,7 @@ export default class Cliente {
     }
 
     set telefone(novoTelefone) {
-        if (novoTelefone === "" || novoTelefone.length !== 11) {
+        if (novoTelefone === "" || novoTelefone.length !== 14) {
             console.log("Formato de telefone inválido");
         } else {
             this.#telefone = novoTelefone;
@@ -87,20 +86,16 @@ export default class Cliente {
         await clienteDAO.alterar(this);
     }
 
-    async apagar() {
+    async excluir() {
         const clienteDAO = new ClienteDAO();
-        await clienteDAO.deletar(this);
+        await clienteDAO.excluir(this);
     }
 
-    async consultarPorNome(nome) {
+    async consultar(termo) {
         const clienteDAO = new ClienteDAO();
-        const listaClientes = await clienteDAO.consultar(nome);
+        const listaClientes = await clienteDAO.consultar(termo);
         return listaClientes;
     }
 
-    async consultarPorTelefone(telefone) {
-        const clienteDAO = new ClienteDAO();
-        const listaClientes = await clienteDAO.consultarTelefone(telefone);
-        return listaClientes;
-    }
+
 }

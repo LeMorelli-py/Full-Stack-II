@@ -6,6 +6,7 @@ import session from 'express-session';
 import dotenv from 'dotenv';	
 import rotaAutenticacao from './Rotas/rotaAutenticacao.js'
 import { verificarAutenticacao } from './Seguranca/autenticar.js';
+import rotaCliente from './Rotas/rotaCliente.js';
 
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use('/marca', verificarAutenticacao,rotaMarca);
 app.use('/console', verificarAutenticacao, rotaConsole);
 app.use('/autenticacao',rotaAutenticacao);
+app.use('/cliente', verificarAutenticacao, rotaCliente)
 
 app.listen(porta, host, ()=>{
     console.log(`Servidor escutando na porta ${host}:${porta}.`);
