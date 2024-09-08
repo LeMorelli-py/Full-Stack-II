@@ -1,6 +1,6 @@
-import Console from '../Modelo/console.js';
+import Console from '../Modelo/Console.js';
 import conectar from './conexao.js';
-import Marca from '../Modelo/marca.js';
+import Marca from '../Modelo/Marca.js';
 
 export default class ConsoleDAO {
 

@@ -16,7 +16,7 @@ export default class ClienteCtrl {
                     endereco, cpf
                 );
                 //resolver a promise
-                console.gravar().then(() => {
+                cliente.gravar().then(() => {
                     resposta.status(200).json({
                         "status": true,
                         "codigoGerado": cliente.codigo,
@@ -33,7 +33,7 @@ export default class ClienteCtrl {
             else {
                 resposta.status(400).json({
                     "status": false,
-                    "mensagem": "Por favor, os dados do cliente segundo a documentação da API!"
+                    "mensagem": "Por favor, insira todos os dados do cliente segundo a documentação da API!"
                 });
             }
         }
@@ -49,11 +49,12 @@ export default class ClienteCtrl {
         resposta.type('application/json');
         if ((requisicao.method === 'PUT' || requisicao.method === 'PATCH') && requisicao.is('application/json')) {
             const dados = requisicao.body;
+            const codigo = dados.codigo;
             const nome = dados.nome;
             const telefone = dados.telefone;
             const endereco = dados.endereco;
             const cpf = dados.cpf
-            if (codigo && nome && telefone && endereco) {
+            if (codigo && nome && telefone && endereco && cpf) {
                 const cliente = new Cliente(codigo, nome, telefone,
                     endereco, cpf);
                 //resolver a promise

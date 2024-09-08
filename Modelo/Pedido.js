@@ -1,3 +1,4 @@
+import PedidoDAO from "../Persistencia/pedidoDAO.js";
 
 export default class Pedido {
     #codigo;
@@ -5,9 +6,11 @@ export default class Pedido {
     #data;
     #total;
     #itens;
+    #pedidoDAO;
 
-    constructor(codigo, cliente, data,  total, itens) {
-        this.#codigo = codigo;
+    constructor(codigo, cliente, data, total, itens) {
+        this.#pedidoDAO = new PedidoDAO();
+        this.#codigo = codigo; // Usando o setter para validação
         this.#cliente = cliente;
         this.#data = data;
         this.#total = total;
@@ -22,11 +25,10 @@ export default class Pedido {
     }
 
     set codigo(novoCodigo) {
-        if (novoCodigo === "" || typeof novoCodigo !== "number") {
-            console.log("Formato de dado inválido");
-        } else {
-            this.#codigo = novoCodigo;
+        if (typeof novoCodigo !== "number" || novoCodigo >= 0) {
+            throw new Error("Formato de dado inválido: o código deve ser um número positivo.");
         }
+        this.#codigo = novoCodigo;
     }
 
     // Código do Cliente
@@ -34,9 +36,8 @@ export default class Pedido {
         return this.#cliente;
     }
 
-    set cliente(novocliente) {
-        this.#cliente = novocliente;
-        
+    set cliente(novoCliente) {
+        this.#cliente = novoCliente;
     }
 
     // Data
@@ -57,7 +58,7 @@ export default class Pedido {
         this.#total = novoTotal;
     }
 
-    // itens
+    // Itens
     get itens() {
         return this.#itens;
     }
@@ -65,37 +66,31 @@ export default class Pedido {
     set itens(novosItens) {
         this.#itens = novosItens;
     }
+
     // JSON
     toJSON() {
         return {
-            'codigo': this.#codigo,
-            'cliente': this.#cliente,
-            'data': this.#data,
-            'total': this.#total,
-            'itens': this.#itens
-
+            codigo: this.#codigo,
+            cliente: this.#cliente,
+            data: this.#data,
+            total: this.#total,
+            itens: this.#itens,
         };
     }
 
     async gravar() {
-        const pedidoDAO = new PedidoDAO();
-        this.codigo = await pedidoDAO.adicionar(this);
+        this.codigo = await this.#pedidoDAO.gravar(this);
     }
 
     async atualizar() {
-        const pedidoDAO = new PedidoDAO();
-        await pedidoDAO.atualizar(this);
+        await this.#pedidoDAO.atualizar(this);
     }
 
     async excluir() {
-        const pedidoDAO = new PedidoDAO();
-        await pedidoDAO.excluir(this);
+        await this.#pedidoDAO.excluir(this);
     }
 
     async consultar(termoBusca) {
-        const pedidoDAO = new PedidoDAO();
-        const listaPedidos = await pedidoDAO.consultar(termoBusca);
-        return listaPedidos;
+        return await this.#pedidoDAO.consultar(termoBusca);
     }
-    
 }

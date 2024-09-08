@@ -1,23 +1,20 @@
 export default class ItemPedido {
-    #produto;
+    #console;
     #quantidade;
     #precoUnitario;
-    #subtotal; 
-    
-    constructor(produto, quantidade, precoUnitario,subtotal) {
-        this.#produto = produto;
-        this.#quantidade = quantidade;
-        this.#precoUnitario = precoUnitario;
-        this.#subtotal = quantidade * precoUnitario;
+
+    constructor(console, quantidade, precoUnitario) {
+        this.#console = console;
+        this.quantidade = quantidade; 
+        this.precoUnitario = precoUnitario; 
     }
 
-    // Métodos de acesso (get) e modificação (set)
-    get produto() {
-        return this.#produto;
+    get console() {
+        return this.#console;
     }
 
-    set produto(novoProduto) {
-        this.#produto = novoProduto;
+    set console(novoConsole) {
+        this.#console = novoConsole;
     }
 
     get quantidade() {
@@ -25,32 +22,34 @@ export default class ItemPedido {
     }
 
     set quantidade(novaQuantidade) {
+        if (novaQuantidade < 0) {
+            throw new Error("Quantidade não pode ser negativa.");
+        }
         this.#quantidade = novaQuantidade;
     }
-    
+
     get precoUnitario() {
         return this.#precoUnitario;
     }
 
     set precoUnitario(novoPrecoUnitario) {
+        if (novoPrecoUnitario < 0) {
+            throw new Error("Preço unitário não pode ser negativo.");
+        }
         this.#precoUnitario = novoPrecoUnitario;
     }
-    // Produto Nome
-    
+
     get subtotal() {
-        this.#subtotal = this.#quantidade * this.#precoUnitario;
-        return this.#subtotal;
+        return this.#quantidade * this.#precoUnitario;
     }
 
-    
     // JSON
     toJSON() {
         return {
-            'produto': this.#produto,
-            'quantidade': this.#quantidade,
-            'precoUnitario': this.#precoUnitario,
-            'subtotal': this.#subtotal
+            console: this.#console,
+            quantidade: this.#quantidade,
+            precoUnitario: this.#precoUnitario,
+            subtotal: this.subtotal
         };
     }
 }
-

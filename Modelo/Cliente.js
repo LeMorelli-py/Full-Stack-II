@@ -4,12 +4,14 @@ export default class Cliente {
     #nome;
     #telefone;
     #endereco;
+    #cpf;
 
-    constructor(codigo, nome, telefone, endereco) {
+    constructor(codigo, nome, telefone, endereco, cpf) {
         this.#codigo = codigo;
         this.#nome = nome;
         this.#telefone = telefone;
         this.#endereco = endereco;
+        this.#cpf = cpf;
     }
 
     // Métodos de acesso (get) e modificação (set)
@@ -66,24 +68,38 @@ export default class Cliente {
         }
     }
 
+       // CPF
+       get cpf() {
+        return this.#cpf;
+    }
+
+    set cpf(novoCpf) {
+        if (novoCpf === "") {
+            console.log("Dado não preenchido");
+        } else {
+            this.#cpf = novoCpf;
+        }
+    }
+
     // JSON
     toJSON() {
         return {
             'codigo': this.#codigo,
             'nome': this.#nome,
             'telefone': this.#telefone,
-            'endereco': this.#endereco
+            'endereco': this.#endereco,
+            'cpf': this.#cpf
         };
     }
 
     async gravar() {
         const clienteDAO = new ClienteDAO();
-        this.codigo = await clienteDAO.adicionar(this);
+        this.codigo = await clienteDAO.gravar(this);
     }
 
     async atualizar() {
         const clienteDAO = new ClienteDAO();
-        await clienteDAO.alterar(this);
+        await clienteDAO.atualizar(this);
     }
 
     async excluir() {
@@ -96,6 +112,5 @@ export default class Cliente {
         const listaClientes = await clienteDAO.consultar(termo);
         return listaClientes;
     }
-
 
 }

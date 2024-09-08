@@ -30,7 +30,7 @@ export default class ClienteDAO{
     async gravar(cliente){
         if (cliente instanceof Cliente){
             const sql = "INSERT INTO cliente(cli_nome, cli_telefone, cli_endereco, cli_cpf) VALUES(?,?,?,?)"; 
-            const parametros = [cliente.nome, cliente.telefone, cliente.endereco];
+            const parametros = [cliente.nome, cliente.telefone, cliente.endereco, cliente.cpf];
             const conexao = await conectar(); //retorna uma conexão
             const retorno = await conexao.execute(sql,parametros); //prepara a sql e depois executa
             cliente.codigo = retorno[0].insertId;
@@ -41,8 +41,8 @@ export default class ClienteDAO{
 
     async atualizar(cliente){
         if (cliente instanceof Cliente){
-            const sql = "UPDATE cliente SET cli_nome = ?, cli_telefone = ?, cli_endereco = ?, cli_cpf WHERE cli_codigo = ?"; 
-            const parametros = [cliente.descricao, cliente.codigo];
+            const sql = "UPDATE cliente SET cli_nome = ?, cli_telefone = ?, cli_endereco = ?, cli_cpf = ? WHERE cli_codigo = ?"; 
+            const parametros = [cliente.nome, cliente.telefone, cliente.endereco, cliente.cpf, cliente.codigo];
             const conexao = await conectar(); //retorna uma conexão
             await conexao.execute(sql,parametros); //prepara a sql e depois executa
             global.poolConexoes.releaseConnection(conexao);
@@ -68,7 +68,7 @@ export default class ClienteDAO{
         //é um número inteiro?
         if (!isNaN(parseInt(parametroConsulta))){
             //consultar pelo código da marca
-            sql='SELECT * FROM cliente WHERE cli_cpf = ? order by cli_nome';
+            sql='SELECT * FROM cliente WHERE cli_cpf = ? order by cli_cpf';
             parametros = [parametroConsulta];
         }
         else{
@@ -85,7 +85,7 @@ export default class ClienteDAO{
         for (const registro of registros){
             const cliente = new Cliente(registro.cli_codigo,
                 registro.cli_nome, registro.cli_telefone,
-                 registro.cli_endereco, registro.cli_CPF);
+                registro.cli_endereco, registro.cli_cpf);
             listaClientes.push(cliente);
         }
         return listaClientes;

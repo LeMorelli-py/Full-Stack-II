@@ -143,12 +143,12 @@ export default class MarcaCtrl {
                         listaMarcas
                     });
             })
-            .catch((erro)=>{
-                resposta.json(
-                    {
-                        status:false,
-                        mensagem:"Não foi possível obter as Marcas: " + erro.message
-                    }
+                .catch((erro)=>{
+                    resposta.json(
+                        {
+                            status:false,
+                            mensagem:"Não foi possível obter as Marcas: " + erro.message
+                        }
                 );
             });
         }
